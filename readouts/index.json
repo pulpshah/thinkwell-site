@@ -1,0 +1,398 @@
+[
+ {
+  "key": "transcript",
+  "title": "Who said what",
+  "caption": "Speaker rings, lines of talk, and one phrase ringed: the moment that matters.",
+  "alt": "A transcript of the Corvane Rail call. Corvane says both sides back the amendment if it carries a set-aside; that phrase is marked."
+ },
+ {
+  "key": "claims",
+  "title": "Claims followed to outcomes",
+  "caption": "Claims on the left, outcomes on the right. Solid links are kept, dashed are pending.",
+  "alt": "Three claims and their outcomes: riders want the lanes, most of 412 answers; Corvane backs a set-aside, in writing Oct 7; council staff will co-sign, still waiting."
+ },
+ {
+  "key": "timeline",
+  "title": "Every hearing, in time",
+  "caption": "A week as ticks. Events stand on stems; the one that needs you is ringed.",
+  "alt": "A week in Meridian: the poll opens Monday, the brief goes to council staff Wednesday, the hearing is Thursday."
+ },
+ {
+  "key": "map",
+  "title": "Who is linked to whom",
+  "caption": "Nodes and links on a quiet dot grid, never a drawn country. One node ringed.",
+  "alt": "Who is linked to whom"
+ },
+ {
+  "key": "test",
+  "title": "Test before it goes public",
+  "caption": "Values printed beside every bar. Simulated people are dashed and labeled.",
+  "alt": "Three versions tested: A 58 percent, B 46 percent, C 31 percent from simulated people. Sample data."
+ },
+ {
+  "key": "goal",
+  "title": "Goals with evidence",
+  "caption": "One dot per call, filled when the goal was kept. The latest call is ringed.",
+  "alt": "Goals with evidence"
+ },
+ {
+  "key": "voice",
+  "title": "Every word, kept",
+  "caption": "Sound on the left becomes words on the right. One word ringed: the one you will search for later.",
+  "alt": "A waveform turning into words: riders asked for these lanes in 412 responses; the ten percent set-aside is marked."
+ },
+ {
+  "key": "stance",
+  "title": "Where people stand",
+  "caption": "Each dot is a person on one axis, against to for. The ringed one changed sides.",
+  "alt": "Where people stand"
+ },
+ {
+  "key": "heat",
+  "title": "Where an issue is breaking",
+  "caption": "Sources by day, darker with volume. The ringed cell is today's spike.",
+  "alt": "Where an issue is breaking"
+ },
+ {
+  "key": "bill",
+  "title": "Follow a bill",
+  "caption": "A bill's path as five stops. Filled stops are done; the ring is where it is today.",
+  "alt": "S. 2214, transit formula grants: filed, through committee, and on the floor today."
+ },
+ {
+  "key": "deadline",
+  "title": "Never miss a deadline to comment",
+  "caption": "Three weeks, three deadlines. The one closing soonest is ringed.",
+  "alt": "A calendar: the hearing is Thursday October 15; comments close Wednesday October 21."
+ },
+ {
+  "key": "personas",
+  "title": "Simulated audiences",
+  "caption": "One real person and two simulated ones. Dashed always means simulated.",
+  "alt": "Simulated audiences"
+ },
+ {
+  "key": "verified",
+  "title": "Verified people",
+  "caption": "388 of 412 answers verified by phone or ID. One answer quoted in the brief is ringed.",
+  "alt": "388 of 412 answers verified by phone or ID."
+ },
+ {
+  "key": "brief",
+  "title": "Brief leadership",
+  "caption": "A stack of briefs, the newest on top, with the line that matters ringed.",
+  "alt": "A brief titled Route 9, where it stands: 412 of 500 riders answered; Corvane backs the set-aside in writing; next meeting Thursday."
+ },
+ {
+  "key": "sentiment",
+  "title": "Hear how a response lands",
+  "caption": "Feeling over time with its range shaded. The ring marks the statement.",
+  "alt": "Hear how a response lands"
+ },
+ {
+  "key": "funnel",
+  "title": "From invited to verified",
+  "caption": "Each step printed beside its bar. The ring marks where most people drop.",
+  "alt": "Route 9 rider poll: 1,000 invited, 500 reached, 412 answered, 388 verified."
+ },
+ {
+  "key": "radial",
+  "title": "Your stakeholder book",
+  "caption": "You in the middle; line weight is how often you spoke. One stakeholder ringed.",
+  "alt": "Your stakeholder book: Leo Marsh, council staff, the riders' union, Corvane Rail, the Chamber, and Dana Ruiz, by how often you spoke."
+ },
+ {
+  "key": "versions",
+  "title": "Compare two talking points",
+  "caption": "Two versions side by side. Version A moved more undecided riders.",
+  "alt": "Version A, 58 percent would share it; Version B, 46 percent. Sample data."
+ },
+ {
+  "key": "appeals",
+  "title": "How a statement persuades",
+  "caption": "Credibility, feeling, reason, and timing, scored for one statement. The strongest appeal is ringed.",
+  "alt": "A statement scored for credibility 72, feeling 44, reason 86, and timing 38. Reason carries it."
+ },
+ {
+  "key": "objections",
+  "title": "Every objection, answered",
+  "caption": "A claim, the objections it meets, and the answers. Dashed answers are still open.",
+  "alt": "Every objection, answered"
+ },
+ {
+  "key": "conviction",
+  "title": "How firmly you held the ask",
+  "caption": "Conviction across seven calls. The ring marks the call where it held best.",
+  "alt": "Conviction on the ten percent ask across seven calls, highest on call six."
+ },
+ {
+  "key": "persona_state",
+  "title": "A simulated person who remembers",
+  "caption": "One simulated person keeps state between calls, so the second test starts where the first ended.",
+  "alt": "A simulated person who remembers"
+ },
+ {
+  "key": "rooms",
+  "title": "One person, many rooms",
+  "caption": "The same person at work, at home, and online. The modeled rooms are dashed.",
+  "alt": "One person, many rooms"
+ },
+ {
+  "key": "calibration",
+  "title": "Calibrated against real people",
+  "caption": "Simulated answers drawn over real ones. When the curves agree, the simulation is trusted more.",
+  "alt": "Calibrated against real people"
+ },
+ {
+  "key": "provenance",
+  "title": "Where every trait comes from",
+  "caption": "A simulated person, each trait, and the source behind it. One trait ringed with its source.",
+  "alt": "Where every trait comes from"
+ },
+ {
+  "key": "cost",
+  "title": "Ten versions for under $5",
+  "caption": "Ten simulated tests, dashed. The one worth sending is filled and ringed.",
+  "alt": "Ten versions for under $5"
+ },
+ {
+  "key": "queue",
+  "title": "Questions, ranked",
+  "caption": "Verified residents vote questions up. The top one is ringed.",
+  "alt": "Questions, ranked"
+ },
+ {
+  "key": "thread",
+  "title": "A discussion with an aim",
+  "caption": "One prompt, replies in order, and a recap at the end.",
+  "alt": "A discussion with an aim"
+ },
+ {
+  "key": "referral",
+  "title": "Referrals that spread",
+  "caption": "One invite becomes three generations of sign-ups.",
+  "alt": "Referrals that spread"
+ },
+ {
+  "key": "multilingual",
+  "title": "Every language, one record",
+  "caption": "Three languages, answered into one record.",
+  "alt": "Every language, one record"
+ },
+ {
+  "key": "engage_formats",
+  "title": "Every campaign format",
+  "caption": "Four formats, each started from one line.",
+  "alt": "Every campaign format"
+ },
+ {
+  "key": "ban",
+  "title": "A ban that holds",
+  "caption": "A banned participant stays out, by username, account, or verified identity.",
+  "alt": "A ban that holds"
+ },
+ {
+  "key": "rewards",
+  "title": "Prizes for the best contribution",
+  "caption": "Verified votes rank them; the prize waits on an ID check.",
+  "alt": "Contributions ranked by verified votes: add a bike lane on Elm, 41; keep delivery windows, 33; extend to the depot, 18. The prize is paid after an ID check."
+ },
+ {
+  "key": "live",
+  "title": "Live in one click",
+  "caption": "A draft goes live in one click; live is ringed.",
+  "alt": "Live in one click"
+ },
+ {
+  "key": "gate",
+  "title": "Checked at the door",
+  "caption": "Each response is checked before it counts. Dashed ones did not pass.",
+  "alt": "Checked at the door"
+ },
+ {
+  "key": "bots",
+  "title": "Bots kept out",
+  "caption": "Responses that pass a check are counted; the rest are held back, dashed.",
+  "alt": "Bots kept out"
+ },
+ {
+  "key": "tiers",
+  "title": "Stronger checks count for more",
+  "caption": "Email, phone, ID, and face, in rising strength. ID is ringed: what most campaigns ask for.",
+  "alt": "Stronger checks count for more"
+ },
+ {
+  "key": "widget",
+  "title": "A widget that stays aside",
+  "caption": "Your call fills the screen; the widget sits beside it.",
+  "alt": "A widget that stays aside"
+ },
+ {
+  "key": "share",
+  "title": "Share with anyone",
+  "caption": "Shared by link. Guests view and comment for free.",
+  "alt": "Share with anyone"
+ },
+ {
+  "key": "draft",
+  "title": "Drafts from your calls",
+  "caption": "What was said on the left, drafted on the right.",
+  "alt": "Drafts from your calls"
+ },
+ {
+  "key": "formats",
+  "title": "Every format",
+  "caption": "Text is free; images, audio, and video use credits.",
+  "alt": "Every format"
+ },
+ {
+  "key": "send",
+  "title": "Send it",
+  "caption": "A draft becomes an email to the people who need it.",
+  "alt": "Send it"
+ },
+ {
+  "key": "hub",
+  "title": "Works with what you use",
+  "caption": "Calendar, email, CRM, and meetings, in one record.",
+  "alt": "Works with what you use"
+ },
+ {
+  "key": "watcher",
+  "title": "A daily watcher",
+  "caption": "Your issues checked every morning, changes marked.",
+  "alt": "A daily watcher"
+ },
+ {
+  "key": "states",
+  "title": "Across every state",
+  "caption": "Fifty states at a glance; filled ones moved this week.",
+  "alt": "Across every state"
+ },
+ {
+  "key": "call_issue",
+  "title": "From the call to the issue",
+  "caption": "A line from a call links straight to the issue it touches.",
+  "alt": "From the call to the issue"
+ },
+ {
+  "key": "about_from",
+  "title": "About here, and from here",
+  "caption": "Where a story is talked about, and where it is talked from.",
+  "alt": "About here, and from here"
+ },
+ {
+  "key": "scale",
+  "title": "From a block to the globe",
+  "caption": "One question, asked at any scale.",
+  "alt": "From a block to the globe"
+ },
+ {
+  "key": "ask_map",
+  "title": "Ask the map",
+  "caption": "Ask in plain words; the places that answer light up.",
+  "alt": "Ask the map"
+ },
+ {
+  "key": "dashboard",
+  "title": "Dashboards anyone can follow",
+  "caption": "Three tiles, one link, always current.",
+  "alt": "A dashboard: 412 poll answers, 388 verified, 19 days to the vote."
+ },
+ {
+  "key": "roles",
+  "title": "Roles and audit logs",
+  "caption": "Four roles, and every action written to the log.",
+  "alt": "Roles and audit logs"
+ },
+ {
+  "key": "walls",
+  "title": "Client workspaces",
+  "caption": "Each client walled off from the others and from the team.",
+  "alt": "Client workspaces"
+ },
+ {
+  "key": "access",
+  "title": "Accessible by design",
+  "caption": "Captions, keyboard, and screen reader support.",
+  "alt": "Accessible by design"
+ },
+ {
+  "key": "beside",
+  "title": "What came up, beside the call",
+  "caption": "Records appear beside the call as names come up.",
+  "alt": "What came up, beside the call"
+ },
+ {
+  "key": "room",
+  "title": "The whole room in a window",
+  "caption": "Everyone on the call, named as they speak.",
+  "alt": "The whole room in a window"
+ },
+ {
+  "key": "disp_video",
+  "title": "Video, with its moments",
+  "caption": "A hearing video with one timestamp anchored at 2:14 and a poll cue at 3:05.",
+  "alt": "A council hearing video. The 2:14 timestamp, in writing, is anchored; a poll cue at 3:05 asks lanes, yes or no."
+ },
+ {
+  "key": "disp_text",
+  "title": "An article, with a line held",
+  "caption": "One span of a news story is anchored, with a fact cue that asks for a source.",
+  "alt": "A Meridian Ledger story: Route 9 lanes head to council. The span riders back it in 412 answers is anchored, with a fact cue: cite your source."
+ },
+ {
+  "key": "disp_audio",
+  "title": "Audio, with a span",
+  "caption": "Half a minute of a call held as one span, with a prompt cue on it.",
+  "alt": "A call waveform with the span from 1:02 to 1:31 anchored, and a prompt cue: why ten percent?"
+ },
+ {
+  "key": "disp_pdf",
+  "title": "A document, by page and region",
+  "caption": "Page 4 of the bill with one area anchored, and a stance cue: for or against 4(b).",
+  "alt": "Page 4 of S. 2214 with section 4(b) anchored: ten percent of grant funds go to bus lanes. A stance cue asks for or against."
+ },
+ {
+  "key": "disp_music",
+  "title": "Music, by the bar",
+  "caption": "A radio spot on a staff; bar 3 is anchored, with a react cue.",
+  "alt": "A 30 second radio spot on a staff. Bar 3, the hook, is anchored, with a react cue: catchy, too long."
+ },
+ {
+  "key": "disp_finance",
+  "title": "A market line, with a threshold",
+  "caption": "A bond yield crossing an alert line; the plot point is anchored, with an invite cue.",
+  "alt": "Meridian transit bond yield crossing a 4.20 percent alert on Oct 6. The crossing is anchored, with an invite to talk."
+ },
+ {
+  "key": "disp_transcript",
+  "title": "A transcript, line by line",
+  "caption": "Each line keeps its time; one span is anchored and a fact cue cites the letter.",
+  "alt": "Three transcript lines with times; the 1:02 line is anchored, and a fact cue at 1:15 cites the letter."
+ },
+ {
+  "key": "disp_law",
+  "title": "A bill, clause by clause",
+  "caption": "Section 4(b) is anchored as a text span, with a poll cue: keep, change, or cut.",
+  "alt": "S. 2214 section 4(b): not less than ten percent goes to bus lanes. The clause is anchored with a poll cue: keep, change, or cut."
+ },
+ {
+  "key": "disp_image",
+  "title": "A photo, by point and area",
+  "caption": "A street photo with the stop pinned and the new lane outlined, and a reaction cue.",
+  "alt": "A street photo of Elm Street with the bus stop pinned and the new lane outlined; the cue asks for a reaction: safe, unsafe, unsure."
+ },
+ {
+  "key": "anchors",
+  "title": "Every kind of anchor",
+  "caption": "Where cues show up: a text span, an image point or area, a video timestamp, a chart label or plot, and a diagram shape.",
+  "alt": "Five kinds of anchor, where cues show up: a text span, an image point or area, a video timestamp, a chart label or plot, and a shape in a diagram."
+ },
+ {
+  "key": "cues",
+  "title": "Every kind of cue",
+  "caption": "Invite, prompt, poll, stance, react, and fact. Stance is one claim with two sides.",
+  "alt": "Six kinds of cue: invite to open discussion; prompt a specific question; poll by check all, pick one, or fill in; stance on one claim, for 64 against 36; react with set labels; fact, cite your source."
+ }
+]
