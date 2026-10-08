@@ -14,7 +14,7 @@ site174, brought up to site170 first, then the site175 readouts. Served as `inde
 **site175:**
 
 - 84 readouts inline, focusable, with their own alt text. The 25 slots and 28 product cards are as in site174.
-- 18 sections on 17 pages, before the closing call to action. Ten end with "See every {group} feature", linking to `#/features?group=…`, which opens that group and scrolls to it.
+- 19 sections on 17 pages, before the closing call to action. Ten end with "See every {group} feature", linking to `#/features?group=…`, which opens that group and scrolls to it.
 - Hover and focus dim the rest and the ring breathes. Click, tap, Enter, or Space shows the reveal and pops the ring, and it clears after 2.5 seconds.
 - All features holds all 187 rows: every chart row, its sub-rows, and six source groups ("Sources: Recording" and the others) with their own columns. Closed groups stay in the page, hidden. "Show all" opens all 15.
 
