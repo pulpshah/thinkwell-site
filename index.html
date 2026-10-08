@@ -1483,9 +1483,6 @@ html.slots .media.clip figcaption{display:flex;position:absolute;left:12px;top:1
 /* a heading focused for screen readers after a step is not a control: no ring */
 #qb h1:focus-visible,#qb #stage:focus-visible,#app h1:focus-visible{outline:none}
 
-/* site174: clip, not hidden, so .media is not a scroll container and the readouts' view() timeline tracks the page */
-.media:has(> .rv){overflow:clip}
-
 /* Thinkwell readouts, site174 */
 .look-light{--ring:#c361bc;--weave:#ebe7f3}.look-dark{--ring:#ee8de7;--weave:#1c1930}.look-black{--ring:#ee8de7;--weave:#0f0d18}
 .media .rv{position:absolute;inset:0;width:100%;height:100%;box-sizing:border-box;padding:3%;display:block}
@@ -1504,6 +1501,15 @@ html.slots .media.clip figcaption{display:flex;position:absolute;left:12px;top:1
 .rv [pathLength],.ro svg [pathLength]{stroke-dasharray:1;animation:rv-ring linear both;animation-timeline:view();animation-range:entry 80% cover 40%}
 }}
 /* end motion */
+
+/* site174 page rules, after readouts.css */
+/* clip, not hidden: .media is then not a scroll container, so each readout's view() timeline follows the page */
+.media:has(> .rv){overflow:clip}
+/* the wipe plays while a readout rises from the bottom of the screen to the middle, then the ring draws */
+@supports (animation-timeline: view()){@media (prefers-reduced-motion:no-preference){
+#app .rv{animation-range:entry 0% cover 45%}
+#app .rv [pathLength]{animation-range:cover 40% cover 60%}
+}}
 
 }</style>
 </head>
