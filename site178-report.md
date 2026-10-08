@@ -31,3 +31,22 @@ On 35 pages: every product, use case, and industry page, Home, the product overv
 - `chartcheck.py`: features on the page: 187 of 187
 - No placeholder remains on any of the 125 routes or Home's tabs.
 - site170 `site_gates.py` on the 30 changed routes, at 8 widths in 3 looks: every view passes. The performance budget reports one 61 to 70 ms long task at load. The live site168 measures the same, so it is renderer startup, as the site168 report found, not this change. Layout shift is 0, a route change takes 15 ms, and a modal opens in 17 ms.
+
+## Polish after launch
+
+- **All features:**
+  - Sticky stack from site162: the tools bar pins under the header, an open group's title under the bar, and its plan header under the title.
+  - Rows follow the site170 feature-state boards. Values carry their Limited, Add-on, or Coming tags, and on hover or keyboard focus the row lifts and shows a Details pill.
+  - From 720 to 1023 px the row ends in its chevron, so the plan columns keep their room.
+- **Feature details:** as the boards draw them: a Coming or New chip, the lead line, "What each plan gets", "Add more", "Featured use cases", and the footer.
+- **Pop-up type:** pop-ups sit outside `.pg`, so they fell back to the browser serif. They now use the page's text font.
+- **Menu:** the panel's quick links have the menu items' inset and a hover that shows on the rail. Phone menu rows get a hover with bleed.
+- **Tidy rows:** a pass after every render and resize, so no grid or list ends on a hanging item.
+  - Full rows are kept.
+  - With fewer items than columns, there is one column per item.
+  - Otherwise the nearest column count that divides the items is used, if each column stays at least 300 px wide.
+  - Otherwise the last row stretches, and a stretched picture card goes side by side.
+  - Stretched items keep their neighbours' text width, so line parity holds.
+  - An audit of all 125 routes and Home's tabs at 1440, 1024, 834, and 390 finds no short rows.
+- **The Day card's headline** grows to its widest tied pair, which overflowed by 21 px at 1440.
+- **Gates:** `site_gates.py --routes all` passes every view. Only the performance budget remains, and it fails on the old site168 the same way, so it is renderer startup. `svgcheck` 0, `readsize` 0, `chartcheck` 187 of 187.
