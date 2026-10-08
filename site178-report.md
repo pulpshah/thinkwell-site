@@ -64,3 +64,7 @@ On 35 pages: every product, use case, and industry page, Home, the product overv
   - **Phones:** phones show the step's line, and the end summary stays short. The floating callout is gone.
   - **Reduce motion:** shows the static map and the step list, as before.
   - **Code:** the diagram code now lives in the build as `parts/how.js` (site162 lines 3245 to 3683, restaged).
+- **Hover reels on scenario lists**, after the Pulp brand kit's hover reels. They are on every scenario list on the 10 use case pages and the "More in" lists on scenario pages.
+  - **Hover:** the row lifts and its neighbours dim. A 308 px reel follows the cursor across the list, just above the row (below when there is no room), and plays four readouts, one every 1.5 seconds, on a four-part timer. The readouts' own hover loops play inside it. 308 px keeps their text at 7.5 px.
+  - **Keyboard, touch, and reduced motion:** keyboard focus anchors the reel above the row. Touch keeps the tap for the link. Reduced motion shows the first frame, centred and still. Without JavaScript the lists read as before.
+  - **Which pictures:** frames are ranked by how well each readout's title, caption, and alt text match the scenario's title and line, with a lift for the features the scenario uses. The top frame is now also the scenario page's picture.
