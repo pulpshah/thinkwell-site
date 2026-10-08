@@ -1569,7 +1569,10 @@ html.slots .media.clip figcaption{display:flex;position:absolute;left:12px;top:1
    and its plan header under the title. Full-width paper is drawn with shadows, which never widen the page */
 .fxbar{position:sticky;top:var(--hh,68px);z-index:6;background:var(--paper);box-shadow:0 0 0 100vmax var(--paper);clip-path:inset(0 -100vmax 0);padding-bottom:12px}
 .fg.open>.gh{position:sticky;top:calc(var(--hh,68px) + var(--fxbar,120px));z-index:5;background:var(--paper);box-shadow:0 0 0 100vmax var(--paper),0 1px 0 100vmax var(--line);clip-path:inset(0 -100vmax -1px)}
-.fg.open .fh{position:sticky;top:calc(var(--hh,68px) + var(--fxbar,120px) + var(--fxgh,64px));z-index:4;background:var(--paper);border-bottom-color:var(--ink)}
+/* one column header for the whole table, pinned in the bar: plan names, or a source group's own columns while one is under it */
+.fxbar .fxcols{display:none}
+@media (min-width:720px){.fxbar .fxcols{display:grid;margin-top:12px;border-bottom:1px solid var(--ink)}.fg .fh{display:none}}
+}
 .fg{scroll-margin-top:calc(var(--hh,68px) + var(--fxbar,120px))}
 /* rows, as the feature-state boards draw them: tags under values; on hover or keyboard focus the row lifts and a Details pill shows */
 .fr .tg{display:block;font-size:12px;line-height:16px;font-weight:600;color:var(--ink2);margin-top:3px}
@@ -1617,6 +1620,8 @@ html.slots .media.clip figcaption{display:flex;position:absolute;left:12px;top:1
 .steps .howc span{color:var(--ink2)}
 @media (hover:hover) and (pointer:fine){.steps .howc:hover{background:color-mix(in srgb,var(--surface) 95%,var(--ink));border-color:color-mix(in srgb,var(--line) 80%,var(--ink))}.steps .howc:hover b svg{transform:translateX(2px)}}
 @media (max-width:719px){.steps .howc{grid-column:1/-1}}
+/* the site header stays above the features page's pinned layers, whose full-width paper would otherwise slide over it */
+.pg > .hd{z-index:8}
 
 }</style>
 </head>
@@ -4171,8 +4176,21 @@ function fxMeasure() {
   w.style.setProperty("--hh", Math.round(hd ? hd.getBoundingClientRect().height : 68) + "px");
   w.style.setProperty("--fxbar", Math.round(bar.getBoundingClientRect().height) + "px");
   w.style.setProperty("--fxgh", Math.round(gh ? gh.getBoundingClientRect().height : 64) + "px");
+  fxSrc();
 }
 addEventListener("resize", () => requestAnimationFrame(fxMeasure), { passive: true });
+let fxSrcRaf = 0;
+function fxSrc() {
+  fxSrcRaf = 0; const w = document.querySelector(".fxs"); if (!w) return;
+  const bar = w.querySelector(".fxbar"), cols = bar.querySelector(".fxcols"), y = bar.getBoundingClientRect().bottom + 4;
+  const g = [...w.querySelectorAll(".fg.open")].find(x => { const r = x.getBoundingClientRect(); return r.top <= y && r.bottom > y; });
+  const grp = g && g.classList.contains("src") ? FXG.find(x => slug(x.name) === g.id) : null;
+  const key = grp ? grp.name : "plans"; if (cols.dataset.k === key) return; cols.dataset.k = key;
+  const names = grp ? grp.cols : PLANS4;
+  cols.innerHTML = `<span></span>${names.map(n => `<span>${E(n)}</span>`).join("")}<span></span>`;
+  cols.style.gridTemplateColumns = grp ? `minmax(0,2.2fr) repeat(${names.length},minmax(0,1fr)) 28px` : "";
+}
+addEventListener("scroll", () => { if (!fxSrcRaf && document.querySelector(".fxs")) fxSrcRaf = requestAnimationFrame(fxSrc); }, { passive: true });
 /* #/features?group=engagement opens that group and brings it into view */
 function fxFromHash() {
   const g = new URLSearchParams((location.hash.split("?")[1] || "")).get("group");
@@ -4187,7 +4205,7 @@ function tplFeatures() {
 <section class="fxs"><div class="fxbar"><div class="tools"><div class="srch" role="search"><label class="sr" for="fxq">Search features</label><input id="fxq" type="search" placeholder="Search features" value="${E(FX.qs)}"></div>
 <div class="seg" role="group" aria-label="Sections"><button type="button" data-fxall="0" aria-pressed="${!FX.all}">One at a time</button><button type="button" data-fxall="1" aria-pressed="${FX.all}">Show all</button></div></div>
 <div class="pick" role="group" aria-label="Plan">${PLANS4.map((p, i) => `<button type="button" data-fxplan="${i}" aria-pressed="${i === FX.plan}">${p}</button>`).join("")}</div>
-</div><div class="fgs" id="fgs">${fxGroups()}</div>
+<div class="fh fxcols" aria-hidden="true"><span></span>${PLANS4.map(p => `<span>${p}</span>`).join("")}<span></span></div></div><div class="fgs" id="fgs">${fxGroups()}</div>
 <div class="row" style="margin-top: 20px">${dtBtn("coverage", "Coverage")}<a class="lnk" href="#" id="fxcsv" download="thinkwell-features.csv">Download as CSV ${CHEV}</a></div></section>
 ${endband("See your price", ["quote", "talk"])}`;
 }
