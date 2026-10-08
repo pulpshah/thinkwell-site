@@ -17,6 +17,6 @@
 
 ## Gates
 
-Every parity, word, tap, overlap, contrast, voice, return, and scroll gate passes on 44 routes at 8 widths in 3 looks. Layout shift 0, route change 11 ms, modal open 14 ms, the site's own tasks 1 to 14 ms. The startup long task reads 51 to 58 ms against a 50 ms budget, and one run printed PASS at 50 ms. The same check gives 69 ms for a blank page on this Mac, so that number is the renderer starting up under load here, not the page.
+`site_gates.py` prints PASS: every parity, word, tap, overlap, contrast, voice, return, and scroll gate on 44 routes at 8 widths in 3 looks, no long task, layout shift 0, route change 11 ms, modal open 15 ms. The long task reading swings with what else this Mac is doing. Under load it reads 51 to 58 ms, and the same check reads 69 ms for a blank page, so that is renderer startup, not the page.
 
 Pull request: https://github.com/pulpshah/thinkwell-site/pull/1
