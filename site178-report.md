@@ -55,3 +55,12 @@ On 35 pages: every product, use case, and industry page, Home, the product overv
   - The column header lives in the pinned tools bar, so it holds through the whole table in both modes. Before, each group carried its own header, which scrolled away at the group's end, and in "One at a time" nothing held past the open group.
   - Over a source group, the header switches to that group's columns.
   - The site header is now layer 8, above the pinned layers (6) and below pop-ups (9). Before, a group title's full-width paper could slide over it.
+- **About, How it works, restaged.** It is now a contained card that pins under the header, like the Day story, and runs on about 60 percent of the old scroll.
+  - **Stops:** eight, in order:
+    - The whole map, fully drawn, with its six step names: the big picture first.
+    - Each step in turn. The camera eases in at most 1.6x, the other steps dim but stay in view, the step's line and link show above, and its parts are labelled.
+    - The whole map again, with its summary.
+  - **Controls:** the step tabs jump to their stop. "See the whole map" zooms out during any step, and "Zoom back in" returns.
+  - **Phones:** phones show the step's line, and the end summary stays short. The floating callout is gone.
+  - **Reduce motion:** shows the static map and the step list, as before.
+  - **Code:** the diagram code now lives in the build as `parts/how.js` (site162 lines 3245 to 3683, restaged).
