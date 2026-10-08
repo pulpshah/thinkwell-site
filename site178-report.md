@@ -51,3 +51,7 @@ On 35 pages: every product, use case, and industry page, Home, the product overv
 - **The Day card's headline** grows to its widest tied pair, which overflowed by 21 px at 1440.
 - **Gates:** `site_gates.py --routes all` passes every view. Only the performance budget remains, and it fails on the old site168 the same way, so it is renderer startup. `svgcheck` 0, `readsize` 0, `chartcheck` 187 of 187.
 - **Home, How it works:** the link moved into the steps grid as a boxed card on a light surface that deepens slightly on hover. Six steps plus the card spanning two cells make 4 x 2 at desktop. At two columns the card spans the row under the steps, and on phones it sits last. Tidy skips this grid (`data-tidy="off"`), since its layout is set by hand.
+- **All features, sticky header:**
+  - The column header lives in the pinned tools bar, so it holds through the whole table in both modes. Before, each group carried its own header, which scrolled away at the group's end, and in "One at a time" nothing held past the open group.
+  - Over a source group, the header switches to that group's columns.
+  - The site header is now layer 8, above the pinned layers (6) and below pop-ups (9). Before, a group title's full-width paper could slide over it.
