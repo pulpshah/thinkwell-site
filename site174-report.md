@@ -15,7 +15,8 @@ site168 plus the site174 readouts, served as `index.html` and as `thinkwell-site
 2. site168 already used the class `rv` on page sections for their fade-in. Left alone, the readout wipe would have run on whole sections, so the fade-in class is now `rvl`, and `rv` means only a readout.
 3. Each readout's `aria-label` is filled from `index.json` alt text when the page is built, so it carries the numbers. The drawings are unchanged.
 4. There was no `nowidow` pass to run, so the new section headings, titles, and lines keep their last two words together with a no-break space.
-5. Placeholders the kit doesn't name stay as they are: 82 scenario pages, `home-hero`, and `home-usecase-prepare`.
+5. site168's `.media` box used `overflow: hidden`, which makes it a scroll container. That made the readouts' `view()` timeline follow the readout inside its own box, so the motion finished at once and only the still showed. Boxes holding a readout use `overflow: clip` instead, which clips the same way without being a scroll container.
+6. Placeholders the kit doesn't name stay as they are: 82 scenario pages, `home-hero`, and `home-usecase-prepare`.
 
 ## Checks
 
