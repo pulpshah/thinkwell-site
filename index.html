@@ -1622,6 +1622,41 @@ html.slots .media.clip figcaption{display:flex;position:absolute;left:12px;top:1
 @media (max-width:719px){.steps .howc{grid-column:1/-1}}
 /* the site header stays above the features page's pinned layers, whose full-width paper would otherwise slide over it */
 .pg > .hd{z-index:8}
+/* How it works, restaged: a contained card that pins under the header, like the Day story. The whole map shows first;
+   each step then comes into focus (the camera eases in, the rest dims but stays in view); the whole map returns at the end */
+.tr{--trh:min(720px,calc(100svh - var(--hh,68px) - 48px))}
+#app .tr.tr-live{height:calc(var(--stops) * 42svh + var(--trh))}
+#app .tr-live .tr-pin{top:calc(var(--hh,68px) + 24px);height:var(--trh);padding:22px 28px 18px;border:1px solid var(--line);border-radius:24px;background:var(--surface);overflow:hidden;contain:paint}
+.tr-live .tr-box{transition:transform .7s var(--ease)}
+.tr-node.is-dim{--dim:.3}
+.tr-live.tr-fx .tr-g.is-dim,.tr-live.tr-fx .tr-hd.is-dim{opacity:.22}
+.tr-live.tr-peek .tr-g.is-dim,.tr-live.tr-peek .tr-hd.is-dim,.tr-live.tr-peek .tr-node.is-dim{opacity:.5;--dim:.5}
+/* the overview reads as the big picture: every step name at full strength, no part labels yet */
+.tr-live.tr-over .tr-hd{opacity:1;color:var(--sc)}
+.tr-live.tr-fx .tr-all{display:block}
+.tr-live .tr-end.tr-intro{flex-direction:column;align-items:flex-start;justify-content:center;gap:6px}
+.tr-live .tr-intro .tr-sum{margin:0;font-family:var(--font-display);font-size:26px;line-height:1.2;font-weight:500;color:var(--ink)}
+.tr-live .tr-intro .tr-kg{flex:none;margin:0;font-size:17px;line-height:1.5;font-weight:400;color:var(--ink2);max-width:none}
+/* the overview is the big picture: the loop and its six step names; part labels arrive as each step comes into focus */
+.tr-live.tr-over .tr-node .tr-lb{opacity:0}
+/* at the end the summary sits inside the card's padding */
+.tr-live.tr-endside .tr-end{left:28px}
+@media (max-width:719px){#app .tr-live .tr-pin{top:calc(var(--hh,64px) + 12px);padding:14px 14px 12px;border-radius:18px}.tr{--trh:calc(100svh - var(--hh,64px) - 24px)}
+/* phones show the step's own line under the tabs (they used to show a substep), and keep the end summary short so the map has room */
+.tr-live .tr-head{display:block;padding:10px 14px}.tr-live .tr-head h3{display:none}.tr-live .tr-line{font-size:16px;line-height:1.4;margin:0}
+.tr-live .tr-intro .tr-sum{font-size:21px}.tr-live .tr-intro .tr-kg{font-size:15px}
+.tr-live.tr-done .tr-kg,.tr-live.tr-done .tr-hint{display:none}}
+@media (prefers-reduced-motion:reduce){.tr-live .tr-box{transition:none}}
+/* the drawing is placed by the camera alone, so it never sizes its own space (which it would then be fitted to, and shrink) */
+.tr-live.tr-cam .tr-stage{position:relative}
+.tr-live.tr-cam .tr-box{position:absolute;left:0;top:0}
+.tr-live .tr-main-grid{flex:1 1 0;min-height:0;grid-template-rows:auto minmax(0,1fr)}
+.tr-live.tr-cam .tr-stage{height:100%;min-height:0}
+/* the end summary takes no room until the end; where it sits above the map (not beside it), it stays short so the map keeps its space */
+.tr-live:not(.tr-done) .tr-end:not(.tr-intro){display:none}
+.tr-live.tr-done:not(.tr-endside) .tr-kg,.tr-live.tr-done:not(.tr-endside) .tr-hint{display:none}
+/* where the end map sits under its summary (tablets and phones), part labels wait for a tap, as phones always did */
+.tr-live.tr-done:not(.tr-endside) .tr-node:not(.is-hl):not([aria-expanded="true"]) .tr-lb{opacity:0}
 
 }</style>
 </head>
@@ -2187,6 +2222,9 @@ const HOW = (() => {
   const ic = (k, cls) => ICONS[k] ? `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true"><path d="${ICONS[k]}"/></svg>` : "";
   const SUBS = STEPS.flatMap(([step, , href, label, subs], i) => subs.map(([name, text]) => ({ step, i, name, text, href, label })));
   const END = SUBS.length; /* the last stop: the whole cycle, still */
+  /* site178: the story moves through stops, not substeps. The whole map first, then each step in turn (the camera eases in, at most 1.6x,
+     and the rest dims but stays in view), then the whole map again with its summary */
+  const STOPS = STEPS.length + 2, ZMAX = 1.6;
   const W = 1200, H = 810, G = 340; /* the drawing's size, and the ground line */
   /* the loop, one piece per step, in the direction of flow: id, drawing, first stop, stops it takes to grow */
   const LOOP = [
@@ -2280,7 +2318,7 @@ const HOW = (() => {
     const groups = G5.map((g, i) => `<g class="tr-g" data-s="${i}">${g.loop.join("")}${g.paths.join("")}<g class="tr-xg">${g.extra.join("")}</g></g>`).join("");
     const nodes = NODES.map(([label, sub, x, y, at, , icon, big], j) => `<button type="button" class="tr-node tr-at-${at}${big ? " tr-big" : ""}" data-n="${j}" data-k="${sub}" data-s="${SUBS[sub].i}" style="--i:${j};left:${pct(x, W)};top:${pct(y, H)}" aria-haspopup="dialog" aria-label="${label}, ${SUBS[sub].step}"><i>${ic(icon, "tr-ic")}</i><span class="tr-lb">${label}</span></button>`).join("");
     const heads = HEADS.map(([x, y, at], i) => `<p class="tr-hd tr-hd-${at}" data-i="${i}" data-s="${i}" style="left:${pct(x, W)};top:${pct(y, H)}" aria-hidden="true"><span>${i + 1}</span>${STEPS[i][0]}</p>`).join("");
-    return `<div class="tr-stage" role="group" aria-label="The process as a diagram"><button type="button" class="tr-all">Show all</button><div class="tr-box">
+    return `<div class="tr-stage" role="group" aria-label="The process as a diagram"><button type="button" class="tr-all">See the whole map</button><div class="tr-box">
       <svg class="tr-svg" viewBox="0 0 ${W} ${H}" aria-hidden="true"><line class="tr-ground" x1="0" y1="${G}" x2="${W}" y2="${G}"/>${groups}<path class="tr-web" d=""/>${flow}</svg>
       ${heads}${nodes}<svg class="tr-lead" aria-hidden="true"><path/><circle r="3"/></svg><p class="tr-call" aria-hidden="true"></p></div></div>`;
   }
@@ -2288,12 +2326,12 @@ const HOW = (() => {
     let k = 0;
     const steps = STEPS.map(([name, line, href, label, subs], i) => `<li class="tr-step" data-i="${i}"><div class="tr-head" data-s="${i}"><h3><span class="tr-n">${i + 1}</span>${name}</h3><p class="tr-line">${esc(line)}</p>${lnk(href, label)}</div>
       <ul class="tr-subs">${subs.map(([v, d]) => `<li class="tr-sub" data-k="${k++}"><b>${v}.</b> ${esc(d)}</li>`).join("")}</ul></li>`).join("");
-    let first = 0; const tabs = STEPS.map(([name, , , , subs], i) => { const f = first; first += subs.length; return `<button type="button" class="tr-tab" data-s="${i}" data-f="${f}"><span>${i + 1}</span>${name}</button>`; }).join("");
-    const snaps = Array.from({ length: END + 1 }, (_, k) => `<i data-k="${k}"></i>`).join("");
-    return `<section class="tr" data-how aria-labelledby="tr-h" style="--stops:${END + 1}"><div class="tr-snaps" aria-hidden="true">${snaps}</div><div class="tr-pin"><h2 id="tr-h">How it works</h2>
+    let first = 0; const tabs = STEPS.map(([name, , , , subs], i) => { const f = first; first += subs.length; return `<button type="button" class="tr-tab" data-s="${i}" data-f="${f}" data-stop="${i + 1}"><span>${i + 1}</span>${name}</button>`; }).join("");
+    const snaps = Array.from({ length: STOPS }, (_, k) => `<i data-k="${k}"></i>`).join("");
+    return `<section class="tr" data-how aria-labelledby="tr-h" style="--stops:${STOPS}"><div class="tr-snaps" aria-hidden="true">${snaps}</div><div class="tr-pin"><h2 id="tr-h">How it works</h2>
       <nav class="tr-tabs" aria-label="Steps">${tabs}</nav>
       <div class="tr-main-grid"><div class="tr-side"><ol class="tr-steps">${steps}</ol><div class="tr-end" data-k="${END}"><div class="tr-eco" data-s="5"><p class="tr-sum">Conversations are natural language ecosystems.</p></div><p class="tr-kg">Thinkwell turns them into knowledge graphs you can use, explore, and learn from.</p>
-        <div class="tr-go"><p class="tr-hint"><span class="tr-hov">Click</span><span class="tr-tap">Tap</span> any part to explore.</p><p class="tr-feat">${lnk("#/features", "Compare every feature")}</p></div></div></div>${stage()}</div>
+        <div class="tr-go"><p class="tr-hint"><span class="tr-hov">Click</span><span class="tr-tap">Tap</span> any part to explore.</p><p class="tr-feat">${lnk("#/features", "Compare every feature")}</p></div></div><div class="tr-end tr-intro"><p class="tr-sum">Six steps, one loop.</p><p class="tr-kg">Scroll to walk through each step, or pick one above.</p></div></div>${stage()}</div>
       <svg class="tr-tie" aria-hidden="true"><path/></svg>
       <div class="tr-pop" role="dialog" aria-labelledby="tr-pop-h" hidden><button type="button" class="tr-x" aria-label="Close">×</button><p class="tr-pop-ey"></p><h4 id="tr-pop-h"></h4><p class="tr-pop-t"></p><p class="tr-pop-l"></p></div>
       </div></section>`;
@@ -2450,25 +2488,53 @@ const HOW = (() => {
   function frame() {
     const s = st; s.raf = 0; if (!s) return;
     const r = s.sec.getBoundingClientRect(), total = s.sec.offsetHeight - s.pin.offsetHeight;
-    const target = clamp((s.top - r.top) / (total || 1)) * (END + 1);
-    s.shown = s.shown == null ? target : s.shown + (target - s.shown) * 0.22;
-    if (Math.abs(target - s.shown) < 0.002) s.shown = target; else ask();
-    grow(s.shown);
-    const f = Math.min(END, Math.floor(s.shown));
-    if (s.cur < 0 || Math.abs(f - s.cur) > 1 || Math.abs(s.shown - Math.max(f, s.cur)) > 0.04) step(f);
+    const f = Math.min(STOPS - 1, Math.floor(clamp((s.top - r.top) / (total || 1)) * STOPS));
+    if (f !== s.stop) show(f);
+  }
+  /* a stop: 0 is the whole map, 1 to 6 a step in focus, the last the whole map with its summary */
+  function show(f) {
+    const s = st; s.stop = f; s.peek = false; s.sec.classList.remove("tr-peek");
+    if (f === STOPS - 1) { s.sec.classList.remove("tr-over", "tr-fx"); s.intro.classList.remove("is-cur"); s.focus = -1; step(END); return; }
+    if (s.cur === END) { s.cur = -1; s.end.classList.remove("is-cur"); s.sec.classList.remove("tr-done"); closePop(false); fit(); endLayout(false); }
+    const i = f - 1; s.focus = i;
+    s.sec.classList.toggle("tr-over", f === 0); s.sec.classList.toggle("tr-fx", i >= 0);
+    s.stepEls.forEach(el => el.classList.toggle("is-dim", i >= 0 && +el.dataset.s !== i));
+    s.nodes.forEach(o => { o.el.classList.toggle("is-step", i >= 0 && SUBS[o.k].i === i); o.el.classList.remove("is-now"); o.el.tabIndex = -1; });
+    s.heads.forEach((el, j) => el.classList.toggle("is-cur", j === i));
+    s.tabs.forEach((el, j) => { el.classList.toggle("is-cur", j === i); el.classList.remove("is-past"); if (j === i) el.setAttribute("aria-current", "step"); else el.removeAttribute("aria-current"); });
+    s.steps.forEach((el, j) => { el.classList.toggle("is-cur", j === i); el.classList.remove("is-past"); });
+    s.subs.forEach(el => el.classList.remove("is-cur", "is-past"));
+    s.intro.classList.toggle("is-cur", f === 0);
+    fit(); aim(i);
+  }
+  /* the camera for a stop: the whole map fits the card; a step's parts and name are framed, at most ZMAX closer, never leaving a gap at an edge */
+  function aim(i) {
+    const s = st; if (!s || !s.cam) return;
+    const bw = s.box.offsetWidth, bh = bw * H / W, w = s.stage.clientWidth, h = s.stage.clientHeight, sc = bw / W;
+    const fz = Math.min(w / bw, h / bh); let z = fz, x = (w - bw * z) / 2, y = (h - bh * z) / 2;
+    if (i >= 0 && !s.peek) {
+      const pts = NODES.map((n, j) => j).filter(j => SUBS[NODES[j][1]].i === i).map(j => s.pos[j]); if (HEADS[i]) pts.push([HEADS[i][0], HEADS[i][1]]);
+      const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]), x0 = Math.min(...xs) - 110, x1 = Math.max(...xs) + 110, y0 = Math.min(...ys) - 90, y1 = Math.max(...ys) + 90;
+      z = Math.min(fz * ZMAX, Math.max(fz, Math.min(w / ((x1 - x0) * sc), h / ((y1 - y0) * sc))));
+      const zw = bw * z, zh = bh * z;
+      x = w / 2 - (x0 + x1) / 2 * sc * z; y = h / 2 - (y0 + y1) / 2 * sc * z;
+      x = zw <= w ? (w - zw) / 2 : Math.min(0, Math.max(w - zw, x)); y = zh <= h ? (h - zh) / 2 : Math.min(0, Math.max(h - zh, y));
+    }
+    s.box.style.setProperty("--zs", z.toFixed(4)); s.sec.style.setProperty("--sw", (2.5 * W / (bw * z)).toFixed(3));
+    s.box.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) scale(${z.toFixed(4)})`; s.view = null;
   }
   const ask = () => { if (st && !st.raf) st.raf = requestAnimationFrame(frame); };
   /* one snap point per stop, placed so the page settles with that stop in view */
   function snaps() {
     const s = st, total = s.sec.offsetHeight - s.pin.offsetHeight, pad = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
-    s.snaps.forEach((el, k) => { el.style.top = Math.max(0, pad - s.top + total * (k + 0.5) / (END + 1)) + "px"; });
+    s.snaps.forEach((el, k) => { el.style.top = Math.max(0, pad - s.top + total * (k + 0.5) / STOPS) + "px"; });
   }
   /* a step's name jumps to its first stop */
-  function jump(first) {
+  function jump(stop) {
     const s = st; if (!s) return;
-    if (!s.live) { const li = s.steps[SUBS[first].i]; if (li) li.scrollIntoView({ behavior: "auto", block: "start" }); return; }
-    const total = s.sec.offsetHeight - s.pin.offsetHeight, y = s.sec.getBoundingClientRect().top + scrollY - s.top + total * (first + 0.5) / (END + 1);
-    scrollTo({ top: y, behavior: "smooth" });
+    if (!s.live) { const li = s.steps[stop - 1]; if (li) li.scrollIntoView({ behavior: "auto", block: "start" }); return; }
+    const total = s.sec.offsetHeight - s.pin.offsetHeight, y = s.sec.getBoundingClientRect().top + scrollY - s.top + total * (stop + 0.5) / STOPS;
+    scrollTo({ top: y, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
   }
   /* at the end the summary moves beside the drawing when there is room for it; otherwise it stays in the row above */
   /* at the end the summary moves beside the drawing when there is room for it; otherwise it stays in the row above */
@@ -2485,18 +2551,17 @@ const HOW = (() => {
   function settle(k) {
     const s = st; fit(); const was = s.endSide; endLayout(k === END);
     if (s.endSide !== was || k === END) { fit(); endLayout(k === END); }
-    camera(k);
+    if (k === END) camera(k); else aim(s.focus);
   }
   /* sizes the drawing. While it grows it is drawn larger than its space (a close-up) and the camera pans to the current parts; the whole
      cycle fits the space (fw) when it is shown at the end. The still version simply fits. */
-  const ZOOM = 1.4;
   function fit() {
     const s = st, stg = s.stage, w = stg.clientWidth, h = s.live ? stg.clientHeight : Infinity;
     s.fw = Math.max(0, Math.min(w * (!s.live && w < 720 ? 1.2 : 1), h * W / H));
     s.cam = s.live && h > 200;
     s.sec.classList.toggle("tr-cam", !!s.cam);
     s.sec.classList.toggle("tr-tapzoom", !!(s.cam && !s.side)); /* only stacked screens zoom in on a tap at the end; wide screens show every part at full size */
-    const bw = s.cam ? (s.side ? s.fw * ZOOM : Math.min(h * W / H, w * 2.4)) : s.fw;
+    const bw = s.fw;
     s.box.style.width = bw + "px";
     s.sec.classList.toggle("tr-tight", !s.cam && bw < 900);
     if (!s.cam) s.sec.style.setProperty("--tile", Math.max(20, Math.min(32, bw * 0.03)).toFixed(1) + "px"); /* a small still drawing shows a part's label only when it is picked */
@@ -2556,14 +2621,14 @@ const HOW = (() => {
     s.stepEls.forEach(el => el.classList.toggle("is-on", !!btn && el.dataset.s === btn.dataset.s));
   }
   function detach() { if (!st) return; removeEventListener("scroll", ask); removeEventListener("resize", st.onResize); document.removeEventListener("keydown", st.onKey); document.removeEventListener("pointerdown", st.onDown);
-    st.mq.forEach(([m, f]) => m.removeEventListener("change", f)); if (st.io) st.io.disconnect(); if (st.raf) cancelAnimationFrame(st.raf); if (st.flowRaf) cancelAnimationFrame(st.flowRaf); st = null; }
+    st.mq.forEach(([m, f]) => m.removeEventListener("change", f)); if (st.io) st.io.disconnect(); if (st.ro) st.ro.disconnect(); if (st.raf) cancelAnimationFrame(st.raf); if (st.flowRaf) cancelAnimationFrame(st.flowRaf); st = null; }
   function mount() {
     detach(); const sec = document.querySelector("#app [data-how]"); if (!sec) return;
     const q = sel => [...sec.querySelectorAll(sel)], svg = sec.querySelector(".tr-svg");
     const still = matchMedia("(prefers-reduced-motion: reduce)"), short = matchMedia("(orientation: landscape) and (max-height: 540px)"), stackMQ = matchMedia("(max-width: 980px), (max-width: 1024px) and (orientation: portrait)");
     const live = !still.matches && !short.matches;
     sec.querySelectorAll(".tr-arrow").forEach(a => a.remove()); /* arrowheads at the end of each loop piece, pointing the way the loop flows */
-    st = { sec, live, pin: sec.querySelector(".tr-pin"), stage: sec.querySelector(".tr-stage"), box: sec.querySelector(".tr-box"), pop: sec.querySelector(".tr-pop"), end: sec.querySelector(".tr-end"),
+    st = { sec, live, pin: sec.querySelector(".tr-pin"), stage: sec.querySelector(".tr-stage"), box: sec.querySelector(".tr-box"), pop: sec.querySelector(".tr-pop"), end: sec.querySelector(".tr-end:not(.tr-intro)"), intro: sec.querySelector(".tr-intro"), stop: -1, focus: -1, peek: false,
       subs: q(".tr-sub"), steps: q(".tr-step"), heads: q(".tr-hd"), tabs: q(".tr-tab"), snaps: q(".tr-snaps i"), shown: null, tieT: 0, stepEls: q(".tr-g, .tr-node, .tr-hd"), cur: -1, raf: 0, flowRaf: 0, top: 0, open: null, mq: [], grown: 0, visible: false,
       loop: q(".tr-main").map((el, j) => { const len = el.getTotalLength(), a = el.getPointAtLength(len), b = el.getPointAtLength(len - 8), ang = Math.atan2(a.y - b.y, a.x - b.x) * 180 / Math.PI;
         const arrow = document.createElementNS("http://www.w3.org/2000/svg", "path"); arrow.setAttribute("class", "tr-arrow"); arrow.setAttribute("d", "M0 0 L-13 -7 L-13 7 Z");
@@ -2576,8 +2641,10 @@ const HOW = (() => {
     const again = () => mount(); [still, short].forEach(m => { m.addEventListener("change", again); st.mq.push([m, again]); });
     [...st.loop, ...st.lines].forEach(o => o.el.style.strokeDasharray = o.len.toFixed(1));
     sec.classList.toggle("tr-live", live);
-    sec.addEventListener("click", e => { const tb = e.target.closest(".tr-tab"); if (tb) { jump(+tb.dataset.f); return; }
-      if (e.target.closest(".tr-all")) { st.zoomAt = null; camera(END); return; }
+    sec.addEventListener("click", e => { const tb = e.target.closest(".tr-tab"); if (tb) { jump(+tb.dataset.stop); return; }
+      const all = e.target.closest(".tr-all");
+      if (all && st.focus >= 0 && st.cur !== END) { st.peek = !st.peek; sec.classList.toggle("tr-peek", st.peek); all.textContent = st.peek ? "Zoom back in" : "See the whole map"; aim(st.focus); return; }
+      if (all) { st.zoomAt = null; camera(END); return; }
       if (st && st.cam && !st.side && st.cur === END && !st.zoomAt && e.target.closest(".tr-stage")) { const r = st.box.getBoundingClientRect();
         st.zoomAt = [(e.clientX - r.left) / r.width * W, (e.clientY - r.top) / r.height * H]; camera(END); return; }
       const b = e.target.closest(".tr-node"); if (b && st && (st.cur === END || !st.live)) openPop(b); else if (e.target.closest(".tr-x")) closePop(); });
@@ -2588,12 +2655,15 @@ const HOW = (() => {
     document.addEventListener("keydown", st.onKey); document.addEventListener("pointerdown", st.onDown);
     st.onResize = () => { if (!st) return; st.resizing = true; sec.classList.add("tr-resizing"); clearTimeout(st.rzT); st.rzT = setTimeout(() => { if (st) { st.resizing = false; sec.classList.remove("tr-resizing"); } }, 250);
       st.side = !stackMQ.matches; st.subs.forEach(el => el.classList.toggle("tr-stk", !st.side)); fit(); /* the summary's place changes the drawing's space, and the space decides the summary's place: settle both */
-      settle(st.cur); snaps(); callout(st.cur); if (st.open) place(st.open); ask(); };
+      settle(st.cur === END ? END : -1); snaps(); if (st.cur === END) callout(st.cur); if (st.open) place(st.open); ask(); };
     addEventListener("resize", st.onResize, { passive: true });
     st.side = !stackMQ.matches; st.subs.forEach(el => el.classList.toggle("tr-stk", !st.side)); fit(); snap(); sampleLoop();
     if (!live) { grow(END + 1); step(END); return; }
     st.io = new IntersectionObserver(es => { if (!st) return; st.visible = es[0].isIntersecting; if (st.visible && !st.flowRaf) st.flowRaf = requestAnimationFrame(flowTick); });
     st.io.observe(sec); snaps();
+    st.ro = new ResizeObserver(() => { if (!st || st.cur === END) return; const k = st.stage.clientWidth + "x" + st.stage.clientHeight; if (k === st.rk) return; st.rk = k; fit(); aim(st.focus); });
+    st.ro.observe(st.stage);
+    grow(END + 1); /* the whole map is drawn from the start: the story moves the focus, not the drawing */
     addEventListener("scroll", ask, { passive: true }); frame();
   }
   return { page, mount };
