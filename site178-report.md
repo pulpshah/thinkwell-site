@@ -50,3 +50,4 @@ On 35 pages: every product, use case, and industry page, Home, the product overv
   - An audit of all 125 routes and Home's tabs at 1440, 1024, 834, and 390 finds no short rows.
 - **The Day card's headline** grows to its widest tied pair, which overflowed by 21 px at 1440.
 - **Gates:** `site_gates.py --routes all` passes every view. Only the performance budget remains, and it fails on the old site168 the same way, so it is renderer startup. `svgcheck` 0, `readsize` 0, `chartcheck` 187 of 187.
+- **Home, How it works:** the link moved into the steps grid as a boxed card on a light surface that deepens slightly on hover. Six steps plus the card spanning two cells make 4 x 2 at desktop. At two columns the card spans the row under the steps, and on phones it sits last. Tidy skips this grid (`data-tidy="off"`), since its layout is set by hand.
