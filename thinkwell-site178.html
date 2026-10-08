@@ -1563,6 +1563,53 @@ html.slots .media.clip figcaption{display:flex;position:absolute;left:12px;top:1
 #app .sec:has(.rv){content-visibility:visible}
 /* the group link is a 44px target */
 .rvs-all a{display:inline-flex;align-items:center;min-height:44px}
+/* pop-ups sit outside .pg, so they take the page's type here; without it they fell back to the browser serif */
+#mx,#tm{font-family:var(--font-text);font-size:var(--fs-body);line-height:var(--lh-body);color:var(--ink)}
+/* All features: the sticky stack from site162. The tools bar pins under the header, an open group's title under the bar,
+   and its plan header under the title. Full-width paper is drawn with shadows, which never widen the page */
+.fxbar{position:sticky;top:var(--hh,68px);z-index:6;background:var(--paper);box-shadow:0 0 0 100vmax var(--paper);clip-path:inset(0 -100vmax 0);padding-bottom:12px}
+.fg.open>.gh{position:sticky;top:calc(var(--hh,68px) + var(--fxbar,120px));z-index:5;background:var(--paper);box-shadow:0 0 0 100vmax var(--paper),0 1px 0 100vmax var(--line);clip-path:inset(0 -100vmax -1px)}
+.fg.open .fh{position:sticky;top:calc(var(--hh,68px) + var(--fxbar,120px) + var(--fxgh,64px));z-index:4;background:var(--paper);border-bottom-color:var(--ink)}
+.fg{scroll-margin-top:calc(var(--hh,68px) + var(--fxbar,120px))}
+/* rows, as the feature-state boards draw them: tags under values; on hover or keyboard focus the row lifts and a Details pill shows */
+.fr .tg{display:block;font-size:12px;line-height:16px;font-weight:600;color:var(--ink2);margin-top:3px}
+@media (min-width:720px){.fh,.fr{grid-template-columns:minmax(0,2.2fr) repeat(4,minmax(0,1fr)) 96px}}
+.fr .go{justify-self:end;display:inline-flex;align-items:center;gap:6px}
+.fr .go .gl{display:none}
+@media (min-width:720px){
+.fr .go{min-height:36px;padding:0 14px;border-radius:999px;font-size:13px;font-weight:600;color:var(--ink);opacity:0;transition:opacity var(--dur-1) var(--ease)}
+.fr .go .gl{display:inline}
+.fr:focus-visible{background:var(--surface)}.fr:focus-visible .go{opacity:1;box-shadow:inset 0 0 0 1px var(--line);background:var(--paper)}
+@media (hover:hover) and (pointer:fine){.fr:hover{background:var(--surface)}.fr:hover .go{opacity:1;box-shadow:inset 0 0 0 1px var(--line);background:var(--paper)}}
+@media (hover:none){.fr .go{opacity:1}.fr .go .gl{display:none}}
+}
+/* feature details, as the boards draw them */
+.md p.lead{margin:12px 0 0;color:var(--ink2);font-size:16px;line-height:24px}
+.md .chip{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:999px;font-size:12px;font-weight:600;box-shadow:inset 0 0 0 1px var(--line);color:var(--ink2);margin-top:5px;flex:0 0 auto}
+.md .lbl{font-size:13px;font-weight:600;color:var(--ink3);margin:22px 0 8px}
+.md .pv{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line)}
+.md .pv>div{padding:10px 12px 10px 0;font-size:14px;line-height:20px;border-bottom:1px solid var(--line)}
+.md .pv b{display:block;font-size:13px;font-weight:600;color:var(--ink2);margin-bottom:2px}
+.md .pv .mu{color:var(--ink3)}
+.md .pv .tg{display:block;font-size:12px;line-height:16px;font-weight:600;color:var(--ink2);margin-top:3px}
+.md .more{border-top:1px solid var(--line)}
+.md .mr{display:grid;grid-template-columns:150px repeat(4,minmax(0,1fr));gap:8px;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px;line-height:18px}
+.md .mr .mn{font-weight:500}.md .mr .mu{color:var(--ink3)}.md .mr .pl{display:none;font-style:normal}
+.md .mf .lk{display:inline-flex;align-items:center;gap:12px;white-space:nowrap}.md .mf .sep{color:var(--ink3)}
+.md .mf .bell{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--line);color:var(--ink);font-weight:600;text-decoration:none}
+@media (max-width:719px){.md .pv{grid-template-columns:repeat(2,minmax(0,1fr))}.md .mr{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.md .mr .mn{grid-column:1/-1}.md .mr .pl{display:inline;color:var(--ink3);margin-right:6px}}
+/* menu hover: the panel's quick links get the menu items' inset, offset so text stays aligned, and a hover that shows on the rail */
+.mrail a{padding:0 12px;margin:0 -12px;border-radius:10px}
+@media (hover:hover) and (pointer:fine){.mrail a:hover{background:var(--paper)}
+#msheet-host .mrow:hover{background:var(--surface);box-shadow:-12px 0 0 var(--surface),12px 0 0 var(--surface)}}
+/* a picture card stretched across a last row sits side by side: picture left, text right */
+@media (min-width:720px){.card.wide:has(>.media){display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);column-gap:28px;align-content:center;align-items:center}
+.card.wide>.media{grid-row:1/span 4;margin:0}.card.wide>:not(.media){grid-column:2}}
+.wide > h3,.wide > p,.wide > b,.wide .tx,.tail > h3,.tail > p,.tail > b,.tail .tx{max-width:var(--tw,none)}
+/* All features from 720 to 1023: the plan columns need the room, so the row ends in its chevron, as on touch */
+@media (min-width:720px) and (max-width:1023px){.fh,.fr{grid-template-columns:minmax(0,2fr) repeat(4,minmax(0,1fr)) 28px}.fr .go{opacity:1;padding:0;min-height:0;box-shadow:none!important;background:none!important}.fr .go .gl{display:none}}
+/* the Day card's headline grows to its widest tied pair, so a tie never spills past its box */
+.day-card .od-hero{min-width:min-content}
 
 }</style>
 </head>
@@ -3713,6 +3760,33 @@ let PK = "";   /* the placements key of the current route: P-capture, U-track, I
 const pageKey = path => { if (path === "/product") return "P-product"; const m = path.match(/^\/(product|use-cases|industries)\/([^/]+)$/); return m ? { product: "P-", "use-cases": "U-", industries: "I-" }[m[1]] + m[2] : ""; };
 /* no one-word lines: site170's tieAll, after every render */
 const ties = el => { if (el && typeof tieAll === "function") tieAll(el); };
+/* tidy rows: no grid or list ends on a hanging item. Per container: keep full rows; with fewer items than columns, one column
+   per item; else the nearest column count that divides the items and still fits; else the last row stretches to fill */
+const TIDY_MIN = 300;
+function tidy(root) {
+  if (!root) return;
+  root.querySelectorAll(".grid,.list,.steps,.plans,.vals,.vgrid,.reads,.roi,.glance,.plat,.chips").forEach(g => {
+    if (g.closest(".fgs,.chain,form")) return;
+    const kids = [...g.children].filter(k => !k.hidden && getComputedStyle(k).display !== "none");
+    g.style.gridTemplateColumns = ""; kids.forEach(k => { k.style.gridColumn = ""; k.style.removeProperty("--tw"); k.classList.remove("wide", "tail"); });
+    const cs = getComputedStyle(g); if (cs.display !== "grid" && cs.display !== "inline-grid") return;
+    const cols = cs.gridTemplateColumns.split(" ").filter(Boolean).length, n = kids.length;
+    if (cols < 2 || n < 2 || n % cols === 0) return;
+    const gap = parseFloat(cs.columnGap) || 0, w = g.clientWidth;
+    const fits = c => (w - gap * (c - 1)) / c >= Math.min(TIDY_MIN, (w - gap * (cols - 1)) / cols);
+    if (n < cols) { g.style.gridTemplateColumns = `repeat(${n},minmax(0,1fr))`; return; }
+    for (const c of [cols + 1, cols - 1, cols - 2].filter(c => c >= 2)) {
+      if (n % c === 0 && fits(c)) { g.style.gridTemplateColumns = `repeat(${c},minmax(0,1fr))`; return; }
+    }
+    const rem = n % cols, gcd = (a, b) => b ? gcd(b, a % b) : a, tracks = cols * rem / gcd(cols, rem);
+    g.style.gridTemplateColumns = `repeat(${tracks},minmax(0,1fr))`;
+    kids.forEach((k, i) => { const last = i >= n - rem; k.style.gridColumn = `span ${tracks / (last ? rem : cols)}`; if (last) k.classList.add("tail"); if (last && rem === 1) k.classList.add("wide"); });
+    /* a stretched item keeps its neighbours' text measure, so its titles and lines wrap like theirs (line parity) */
+    const ref = kids[0].querySelector(":scope > h3, :scope > p, .tx, :scope > b");
+    if (ref) kids.slice(n - rem).forEach(k => k.style.setProperty("--tw", Math.round(ref.getBoundingClientRect().width) + "px"));
+  });
+}
+addEventListener("resize", () => requestAnimationFrame(() => { tidy(document.getElementById("app")); tidy(document.getElementById("mx")); }), { passive: true });
 const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 const E = esc;
 const PLANS4 = C.features.plans;
@@ -3799,13 +3873,13 @@ const mdTable = rows => rows && rows.length ? `<table>${rows.map(([a, b]) => `<t
 const MF_QUOTE = `<span>See it for your team.</span><a href="#/quote">Build your quote</a><span>&middot;</span><a href="#/contact?topic=talk">Talk to us</a>`;
 function mdHTML(o) {
   return `<div class="scrim" data-mdclose></div><div class="md${o.wide ? " wide" : ""}" role="dialog" aria-modal="true" aria-labelledby="mdh">
-<div class="mh"><h3 id="mdh">${E(o.title)}</h3><button type="button" class="x" data-mdclose aria-label="Close">${XI}</button></div>
-${o.body ? `<p>${E(o.body)}</p>` : ""}${o.html || ""}${mdTable(o.table)}${o.foot === false ? "" : `<div class="mf">${o.foot || MF_QUOTE}</div>`}</div>`;
+<div class="mh"><h3 id="mdh">${E(o.title)}</h3>${o.chip || ""}<button type="button" class="x" data-mdclose aria-label="Close">${XI}</button></div>
+${o.body ? `<p class="lead">${E(o.body)}</p>` : ""}${o.html || ""}${mdTable(o.table)}${o.foot === false ? "" : `<div class="mf">${o.foot || MF_QUOTE}</div>`}</div>`;
 }
 let mdFrom = null;
 function openModal(o) {
   const host = document.getElementById("mx");
-  host.innerHTML = mdHTML(o); host.classList.add("on"); document.body.classList.add("mdopen"); ties(host);
+  host.innerHTML = mdHTML(o); host.classList.add("on"); document.body.classList.add("mdopen"); ties(host); tidy(host);
   const f = host.querySelector("[autofocus]") || host.querySelector(".md .x");
   if (f) f.focus({ preventScroll: true });
 }
@@ -4063,11 +4137,11 @@ function fxMatch(r, qs) {
 function fxRow(r, g, parent) {
   const short = (!parent && !g.src && r.short) || [];
   const cells = r.values.map((v, i) => { const txt = short[i] || v[0] || "No";
-    return `<div class="c${/^(No|N\/A)$/.test(txt) ? " mu" : ""}${!g.src && i === FX.plan ? " on" : ""}">${g.src ? `<span class="cl">${E(g.cols[i])}</span>` : ""}${E(txt)}</div>`; }).join("");
+    return `<div class="c${/^(No|N\/A)$/.test(txt) ? " mu" : ""}${!g.src && i === FX.plan ? " on" : ""}">${g.src ? `<span class="cl">${E(g.cols[i])}</span>` : ""}${E(txt)}${g.src ? "" : ftg(txt, v[1])}</div>`; }).join("");
   const tg = r.values.some(v => v[1] === "road") && r.values.every(v => v[1] !== "inc") ? ' <span class="tag">Coming</span>' : "";
   const md = g.src ? "coverage" : "feat|" + (parent || r).key;
   const st = g.src ? ` style="grid-template-columns:minmax(0,2.2fr) repeat(${g.cols.length},minmax(0,1fr)) 28px"` : "";
-  return `<button type="button" class="fr${parent ? " frm" : ""}" aria-haspopup="dialog" data-md="${E(md)}"${st}><span class="nm">${E(r.name)}${tg}</span>${cells}<span class="go">${CHEV}</span></button>`;
+  return `<button type="button" class="fr${parent ? " frm" : ""}" aria-haspopup="dialog" data-md="${E(md)}"${st}><span class="nm">${E(r.name)}${tg}</span>${cells}<span class="go"><span class="gl">Details</span>${CHEV}</span></button>`;
 }
 function fxGroups() {
   const qs = FX.qs.trim().toLowerCase();
@@ -4084,6 +4158,15 @@ function fxGroups() {
   }).join("");
   return any || !qs ? out : `<p class="fnone">No feature matches that. Try another word.</p>`;
 }
+/* the sticky stack reads its own heights: header, tools bar, and the open group's title */
+function fxMeasure() {
+  const w = document.querySelector(".fxs"); if (!w) return;
+  const hd = document.querySelector(".hd"), bar = w.querySelector(".fxbar"), gh = w.querySelector(".fg.open > .gh") || w.querySelector(".gh");
+  w.style.setProperty("--hh", Math.round(hd ? hd.getBoundingClientRect().height : 68) + "px");
+  w.style.setProperty("--fxbar", Math.round(bar.getBoundingClientRect().height) + "px");
+  w.style.setProperty("--fxgh", Math.round(gh ? gh.getBoundingClientRect().height : 64) + "px");
+}
+addEventListener("resize", () => requestAnimationFrame(fxMeasure), { passive: true });
 /* #/features?group=engagement opens that group and brings it into view */
 function fxFromHash() {
   const g = new URLSearchParams((location.hash.split("?")[1] || "")).get("group");
@@ -4095,25 +4178,30 @@ function fxFromHash() {
 function tplFeatures() {
   FX.target = fxFromHash();
   return `<section class="hero solo"><div><h1>All features</h1><p class="lede">Every feature, on every plan.</p></div></section>
-<section><div class="tools"><div class="srch" role="search"><label class="sr" for="fxq">Search features</label><input id="fxq" type="search" placeholder="Search features" value="${E(FX.qs)}"></div>
+<section class="fxs"><div class="fxbar"><div class="tools"><div class="srch" role="search"><label class="sr" for="fxq">Search features</label><input id="fxq" type="search" placeholder="Search features" value="${E(FX.qs)}"></div>
 <div class="seg" role="group" aria-label="Sections"><button type="button" data-fxall="0" aria-pressed="${!FX.all}">One at a time</button><button type="button" data-fxall="1" aria-pressed="${FX.all}">Show all</button></div></div>
 <div class="pick" role="group" aria-label="Plan">${PLANS4.map((p, i) => `<button type="button" data-fxplan="${i}" aria-pressed="${i === FX.plan}">${p}</button>`).join("")}</div>
-<div class="fgs" id="fgs">${fxGroups()}</div>
+</div><div class="fgs" id="fgs">${fxGroups()}</div>
 <div class="row" style="margin-top: 20px">${dtBtn("coverage", "Coverage")}<a class="lnk" href="#" id="fxcsv" download="thinkwell-features.csv">Download as CSV ${CHEV}</a></div></section>
 ${endband("See your price", ["quote", "talk"])}`;
 }
+const FTAG = { lim: "Limited", add: "Add-on", road: "Coming" };
+const ftg = (v, t) => FTAG[t] && !String(v).toLowerCase().startsWith(FTAG[t].toLowerCase()) ? `<span class="tg">${FTAG[t]}</span>` : "";
+const fmu = t => t === "no" || t === "na";
 function openFeature(key) {
   const r = FROWS[key];
   if (!r) { openModal({ title: fname(key), body: "This feature is part of the platform. See All features for what each plan gets.", foot: MF_QUOTE }); return; }
-  const rows = r.values.map((v, i) => [PLANS4[i], v[0] || "No"]);
-  (r.more || []).forEach(m => m.values.forEach((v, i) => { if (v[0]) rows.push([PLANS4[i] + ": " + m.name, v[0]]); }));
+  const pv = r.values.map(([v, t], i) => `<div${fmu(t) ? ' class="mu"' : ""}><b>${PLANS4[i]}</b>${E(v || "No")}${ftg(v, t)}</div>`).join("");
+  const more = (r.more || []).length ? `<div class="lbl">Add more</div><div class="more">${r.more.map(m => `<div class="mr"><span class="mn">${E(m.name)}</span>${m.values.map(([v, t], i) => `<span${fmu(t) ? ' class="mu"' : ""}><i class="pl">${PLANS4[i]}</i>${E(v || "No")}</span>`).join("")}</div>`).join("")}</div>` : "";
   const uses = (C.feature_scenarios[key] || []).map(scenarioBy).filter(Boolean).slice(0, 3)
     .map(x => `<a href="#${x.path}"><b>${E(x.title)}<span class="ar">${ARROW}</span></b><span>${E(x.line)}</span></a>`).join("");
-  const coming = r.values.every(v => v[1] !== "inc");
+  const coming = r.values.every(v => v[1] !== "inc") && r.values.some(v => v[1] === "road");
+  const chip = coming ? '<span class="chip">Coming</span>' : r.chg === "New" ? '<span class="chip new">New</span>' : "";
   const foot = coming
-    ? `<span>Hear when it ships.</span><a href="#" data-notify data-feature="${E(r.name)}">Tell me when it's ready</a>`
-    : MF_QUOTE;
-  openModal({ title: r.name, body: r.desc, table: rows, html: uses ? `<div class="uc">${uses}</div>` : "", foot: foot });
+    ? `<span>This feature is on the way.</span><a class="bell" href="#" data-notify data-feature="${E(r.name)}">Tell me when it's ready</a>`
+    : `<span>See what it costs for your team.</span><span class="lk"><a href="#/quote">Build your quote</a><span class="sep">&middot;</span><a href="#/contact?topic=talk">Talk to us</a></span>`;
+  openModal({ title: r.name, chip: chip, body: r.desc, wide: true, foot: foot,
+    html: `<div class="lbl">What each plan gets</div><div class="pv">${pv}</div>${more}${uses ? `<div class="lbl">Featured use cases</div><div class="uc">${uses}</div>` : ""}` });
 }
 let SCN = null;
 function scenarioBy(sl) {
@@ -4300,7 +4388,7 @@ function pageFor(path) {
   if (path === "/") return { title: "Thinkwell", nav: "", html: tplHome, mount: mountHome };
   if (path === "/about" || SECROUTE[path]) return { title: "About", nav: "About", html: tplAbout, mount: () => mountAbout(SECROUTE[path]) };
   if (path === "/features") return { title: "All features", nav: "Product", html: tplFeatures,
-    mount: () => { if (FX.target) { const el = document.getElementById(FX.target); if (el) requestAnimationFrame(() => el.scrollIntoView({ block: "start" })); } } };
+    mount: () => { fxMeasure(); if (FX.target) { const el = document.getElementById(FX.target); if (el) requestAnimationFrame(() => el.scrollIntoView({ block: "start" })); } } };
   if (path === "/values") return { title: "Our values", nav: "About", html: () => tplValues(P["/values"]) };
   const p = P[path];
   if (!p) {
@@ -4359,6 +4447,7 @@ function route() {
   if (page.mount) page.mount();
   if (typeof WG === "object") WG.start();
   ties(document.querySelector(".pg"));
+  tidy(app);
   reveal();
   if (route.started) app.focus({ preventScroll: true });
   route.started = true;
@@ -4455,7 +4544,7 @@ document.addEventListener("click", e => {
   if (tab) {
     homeTab = +tab.dataset.tab;
     document.querySelectorAll("[data-tab]").forEach(b => b.setAttribute("aria-selected", String(+b.dataset.tab === homeTab)));
-    document.getElementById("tpwrap").innerHTML = tabPanel(homeTab); ties(document.getElementById("tpwrap"));
+    document.getElementById("tpwrap").innerHTML = tabPanel(homeTab); ties(document.getElementById("tpwrap")); tidy(document.getElementById("tpwrap"));
     if (typeof WG === "object") WG.start();
     return;
   }
@@ -4483,7 +4572,7 @@ function featuresCSV() {
 }
 function renderFx(full) {
   const host = document.getElementById("fgs"); if (!host) return;
-  host.innerHTML = fxGroups(); ties(host);
+  host.innerHTML = fxGroups(); ties(host); fxMeasure();
   if (full) {
     document.querySelectorAll("[data-fxall]").forEach(b => b.setAttribute("aria-pressed", String((b.dataset.fxall === "1") === FX.all)));
     document.querySelectorAll("[data-fxplan]").forEach(b => b.setAttribute("aria-pressed", String(+b.dataset.fxplan === FX.plan)));
