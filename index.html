@@ -1559,6 +1559,10 @@ html.slots .media.clip figcaption{display:flex;position:absolute;left:12px;top:1
 .reads:has(.rv){grid-template-columns:repeat(2,minmax(0,1fr));column-gap:28px;row-gap:24px}
 .reads .media{margin:0 0 16px}
 @media (max-width:719px){.reads:has(.rv){grid-template-columns:minmax(0,1fr)}}
+/* sections holding readouts lay out in full: their real height is far over the 900px estimate, so skipping them shifted everything below */
+#app .sec:has(.rv){content-visibility:visible}
+/* the group link is a 44px target */
+.rvs-all a{display:inline-flex;align-items:center;min-height:44px}
 
 }</style>
 </head>
