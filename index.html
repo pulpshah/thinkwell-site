@@ -3949,7 +3949,7 @@ function trapTerms(e) {
 /* v162: sign-ups, reservations, the beta list, and business forms.
    Every form posts one row to the sign-up list, a Supabase table, once TW_SIGNUPS holds the project address and its public insert key.
    Until then each form says plainly that it isn't connected yet, and nothing is sent. Reservations charge nothing on the site. */
-window.TW_SIGNUPS = window.TW_SIGNUPS || { url: "", key: "", table: "signups" };
+window.TW_SIGNUPS = window.TW_SIGNUPS || { url: "https://mnthjqahacccvhaphani.supabase.co", key: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1udGhqcWFoYWNjY3ZoYXBoYW5pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE1NjIwNDgsImV4cCI6MjEwNzEzODA0OH0.U14hykGBbc-AQP18o7Q3ed41ynha5wUxKW-HXNJPaWo", table: "signups" };
 window.TW_NOT_LIVE = "Sign-ups open very soon. This form is ready but not connected yet, so nothing was sent.";
 window.TW_SEND_FAIL = "That didn't go through. Check your connection and try again.";
 window.twSend = rec => {
