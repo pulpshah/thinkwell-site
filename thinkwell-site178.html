@@ -1199,7 +1199,6 @@ body{background:var(--paper)}
 .mgrp{min-width:0;padding-right:40px}
 .mrail{background:var(--surface);border-radius:14px;padding:12px 18px;align-self:start;margin-left:8px}
 .mrail a{display:flex;align-items:center;min-height:var(--tap);color:var(--acc);text-decoration:none;font-weight:500;font-size:15px}
-.mi.n b::after{content:"New";margin-left:8px;font-size:var(--fs-tag);font-weight:600;color:var(--acc)}
 .hdim{position:fixed;left:0;right:0;top:0;bottom:0;background:var(--scrim);z-index:4}
 .msheet{position:fixed;left:0;right:0;top:64px;bottom:0;background:var(--paper);padding:4px var(--gutter-ph) 24px;box-sizing:border-box;display:flex;flex-direction:column;overflow-y:auto;overscroll-behavior:contain;z-index:var(--z-header)}
 .mrow{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:56px;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);font:inherit;font-size:18px;font-weight:500;text-align:left;width:100%;padding:0;text-decoration:none}
@@ -1210,18 +1209,18 @@ body{background:var(--paper)}
 .msub .ic{color:var(--ink2);display:inline-flex}
 .msub .ic svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;transform-box:fill-box;transform-origin:center}
 .msub a:active .ic svg{animation:ico-play var(--dur-3) var(--ease) 1 both}
-.msub a.n::after{content:"New";margin-left:8px;font-size:var(--fs-tag);font-weight:600;color:var(--acc)}
 .mfoot{margin-top:auto;display:flex;flex-direction:column;gap:12px;padding-top:20px}
 .mfoot .btn{width:100%}
 body.mopen{overflow:hidden}
 
 /* the footer */
 .ft{padding:40px 0 48px;color:var(--ink2);font-size:var(--fs-row)}
-.fcols{display:grid;grid-template-columns:130px repeat(2,minmax(0,.85fr)) repeat(2,minmax(0,1.35fr)) repeat(3,minmax(0,.9fr));gap:22px}
+.fcols{display:grid;grid-template-columns:minmax(150px,1.2fr) repeat(4,minmax(0,1fr));column-gap:32px;row-gap:36px;align-items:start}
+.fcols .fstack{display:grid;gap:32px}
 .fcols h2{margin:0 0 12px;font-family:var(--font-text);font-size:14px;line-height:20px;font-weight:600;color:var(--ink);max-width:none}
 .fcols ul{list-style:none;margin:0;padding:0}
-.fcols a{display:inline-flex;align-items:center;min-height:var(--tap);color:var(--ink2);text-decoration:none}
-.fcols a.n::after{content:"New";margin-left:6px;font-size:var(--fs-tag);font-weight:600;color:var(--acc)}
+.fcols a{display:inline-flex;align-items:center;min-height:var(--tap);color:var(--ink2);text-decoration:none;white-space:nowrap}
+.fcols a:hover{color:var(--ink)}
 .fcols svg.logo{height:26px;width:auto;display:block;color:var(--ink)}
 .fbot{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);display:flex;align-items:center;gap:16px;flex-wrap:wrap;color:var(--ink2)}
 .legal{display:inline-flex;gap:4px}
@@ -1233,7 +1232,7 @@ body.mopen{overflow:hidden}
 .lang svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .lang select{position:absolute;inset:0;width:100%;height:100%;opacity:0;font:inherit;border:0}
 .facc{display:none}
-@media (max-width:1023px){.fcols{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:1023px){.fcols{grid-template-columns:repeat(4,minmax(0,1fr))}.fcols .fbrand{grid-column:1/-1}}
 @media (max-width:719px){
 .fcols{display:none}
 .facc{display:block}
@@ -4318,7 +4317,7 @@ function openFeature(key) {
   const uses = (C.feature_scenarios[key] || []).map(scenarioBy).filter(Boolean).slice(0, 3)
     .map(x => `<a href="#${x.path}"><b>${E(x.title)}<span class="ar">${ARROW}</span></b><span>${E(x.line)}</span></a>`).join("");
   const coming = r.values.every(v => v[1] !== "inc") && r.values.some(v => v[1] === "road");
-  const chip = coming ? '<span class="chip">Coming</span>' : r.chg === "New" ? '<span class="chip new">New</span>' : "";
+  const chip = coming ? '<span class="chip">Coming</span>' : "";
   const foot = coming
     ? `<span>This feature is on the way.</span><a class="bell" href="#" data-notify data-feature="${E(r.name)}">Tell me when it's ready</a>`
     : `<span>See what it costs for your team.</span><span class="lk"><a href="#/quote">Build your quote</a><span class="sep">&middot;</span><a href="#/contact?topic=talk">Talk to us</a></span>`;
@@ -4432,7 +4431,7 @@ const MENU_INDS = [["Firms", "#/industries/firms"], ["Public affairs", "#/indust
   ["Local government", "#/industries/local-government"], ["Traders", "#/industries/traders"]];
 function mi(label, href) {
   const d = MI[label] || { icon: "", desc: "", new: false };
-  return `<a class="mi${d.new ? " n" : ""}" href="${href}"><span class="ic">${d.icon}</span><span class="tx"><b>${E(label)}</b><span>${E(d.desc)}</span></span></a>`;
+  return `<a class="mi" href="${href}"><span class="ic">${d.icon}</span><span class="tx"><b>${E(label)}</b><span>${E(d.desc)}</span></span></a>`;
 }
 function panelProduct() {
   return `<div class="pnw" id="pn-product" hidden><div class="pn pn-p">
@@ -4460,7 +4459,7 @@ ${panelProduct()}${panelSolutions()}`;
 function sheetHTML() {
   const sub = (title, items) => `<div class="msub" hidden><h3>${E(title)}</h3>${items.map(([l, h]) => {
     const d = MI[l] || { icon: "", new: false };
-    return `<a class="${d.new ? "n" : ""}" href="${h}"><span class="ic">${d.icon}</span>${E(l)}</a>`; }).join("")}</div>`;
+    return `<a href="${h}"><span class="ic">${d.icon}</span>${E(l)}</a>`; }).join("")}</div>`;
   return `<div class="msheet" id="msheet" hidden>
 <button type="button" class="mrow" aria-expanded="false" data-acc>Features ${DN}</button>${sub("Features", MENU_PRODUCT.concat([["All features", "#/features"]]))}
 <button type="button" class="mrow" aria-expanded="false" data-acc>Product ${DN}</button>${sub("Product", MENU_PLATFORM.concat([["Product overview", "#/product"]]))}
@@ -4469,26 +4468,20 @@ function sheetHTML() {
 <div class="mfoot"><a class="btn" href="#/sign-in">Sign in</a><a class="btn p" href="#/quote">Build your quote</a></div></div>`;
 }
 const FCOLS = [
-  ["Product", [["Overview", "#/product"], ["The widget", "#/product/widget"], ["Download", "#/download"], ["Integrations", "#/product/integrations"], ["Security", "#/product/security"]]],
-  ["Features", MENU_PRODUCT.concat([["All features", "#/features"]])],
+  ["Product", [["Overview", "#/product"], ["All features", "#/features"], ["The widget", "#/product/widget"], ["Integrations", "#/product/integrations"], ["Security", "#/product/security"], ["Download", "#/download"]]],
+  ["Features", MENU_PRODUCT],
   ["Use cases", MENU_USES],
   ["Industries", MENU_INDS],
   ["Pricing", [["Plans", "#/pricing"], ["Build your quote", "#/quote"], ["Learner rate", "#/legal/learner-rate"], ["Price match", "#/legal/price-match"]]],
   ["About", [["The story", "#/about/story"], ["How it works", "#/about/how-it-works"], ["Our values", "#/values"], ["About Pulp", "#/about/pulp"], ["Talk to us", "#/contact?topic=talk"]]]
 ];
-const isNew = l => !!(MI[l] && MI[l].new);
-const FNEW = { "The story": true, "How it works": true, "About Pulp": true };
 function footerHTML() {
-  const li = ([l, h]) => `<li><a class="${isNew(l) || FNEW[l] ? "n" : ""}" href="${h}">${E(l)}</a></li>`;
-  const uc1 = MENU_USES.slice(0, 5), uc2 = MENU_USES.slice(5);
-  const cols = `<div><a class="brand" href="#/" aria-label="Thinkwell home">${LOGO}</a></div>
-<div><h2>Product</h2><ul>${FCOLS[0][1].map(li).join("")}</ul></div>
-<div><h2>Features</h2><ul>${FCOLS[1][1].map(li).join("")}</ul></div>
-<div><h2>Use cases</h2><ul>${uc1.map(li).join("")}</ul></div>
-<div><h2 aria-hidden="true">&#160;</h2><ul>${uc2.map(li).join("")}</ul></div>
-<div><h2>Industries</h2><ul>${FCOLS[3][1].map(li).join("")}</ul></div>
-<div><h2>Pricing</h2><ul>${FCOLS[4][1].map(li).join("")}</ul></div>
-<div><h2>About</h2><ul>${FCOLS[5][1].map(li).join("")}</ul></div>`;
+  const li = ([l, h]) => `<li><a href="${h}">${E(l)}</a></li>`;
+  // Every group keeps its own heading and one column; short groups stack in
+  // pairs so the four columns come out about the same height.
+  const grp = (n) => { const [t, items] = FCOLS.find(([k]) => k === n); return `<section><h2>${E(t)}</h2><ul>${items.map(li).join("")}</ul></section>`; };
+  const cols = `<div class="fbrand"><a class="brand" href="#/" aria-label="Thinkwell home">${LOGO}</a></div>
+${[["Product", "Pricing"], ["Features"], ["Use cases"], ["Industries", "About"]].map((st) => `<div class="fstack">${st.map(grp).join("")}</div>`).join("")}`;
   const acc = FCOLS.map(([n, items]) => `<div><button type="button" class="mrow" aria-expanded="false" data-acc>${E(n)} ${DN}</button><ul hidden>${items.map(li).join("")}</ul></div>`).join("");
   const look = document.documentElement.dataset.look || "light";
   const seg = `<div class="seg" role="group" aria-label="Look">${[["light", "Light"], ["dark", "Dark"], ["black", "Black"]]
