@@ -1673,6 +1673,22 @@ html.slots .media.clip figcaption{display:flex;position:absolute;left:12px;top:1
 .reelled [data-reel].reel-cur{background:var(--surface);box-shadow:-12px 0 0 var(--surface),12px 0 0 var(--surface)}
 @media (prefers-reduced-motion:reduce){#reel,.reelled [data-reel]{transition:none}}
 
+/* All features, desktop: the plan names in the pinned header are the column switch. Hover one to spotlight that plan's
+   column (its values in full ink, the rest dimmed); click to keep it lit; click again to clear */
+@media (min-width:720px){
+.fxbar .fxcols .fxp{font:inherit;color:inherit;background:transparent;border:0;border-radius:999px;display:inline-flex;align-items:center;min-height:var(--tap);padding:0 10px;margin:-10px 0 -10px -10px;cursor:pointer;transition:background-color var(--dur-1) var(--ease),color var(--dur-1) var(--ease)}
+.fxbar .fxcols .fxp:not([aria-pressed="true"]):hover{background:var(--surface);color:var(--ink)}
+.fxbar .fxcols .fxp[aria-pressed="true"]{background:var(--inv);color:var(--invt)}
+.fxbar .fxcols .fxp:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.fxs[data-spot] .fg:not(.src) .fr .c{color:var(--ink3);transition:color var(--dur-1) var(--ease)}
+.fxs[data-spot="0"] .fg:not(.src) .fr .c:nth-child(2),.fxs[data-spot="1"] .fg:not(.src) .fr .c:nth-child(3),
+.fxs[data-spot="2"] .fg:not(.src) .fr .c:nth-child(4),.fxs[data-spot="3"] .fg:not(.src) .fr .c:nth-child(5){color:var(--ink);font-weight:600}
+}
+/* sub-section labels pin under the open group's title, so a label is never sliced as rows scroll beneath it */
+.fg.open .fsec{position:sticky;top:calc(var(--hh,68px) + var(--fxbar,120px) + var(--fxgh,64px));z-index:4;background:var(--paper);box-shadow:0 0 0 100vmax var(--paper);clip-path:inset(0 -100vmax 0)}
+/* no row hover while the page scrolls */
+.fxs.scrolling .fr{pointer-events:none}
+
 /* the hover loops, played inside the reel */
 @media (hover:hover) and (prefers-reduced-motion:no-preference){
 #reel .rv .l-fx,#reel .ro svg .l-fx{animation:l-fx 2.6s cubic-bezier(.2,.7,.2,1) infinite;animation-delay:calc(var(--i,0)*110ms)}
@@ -4230,7 +4246,7 @@ ${endband("See your price", ["quote", "join"])}`;
 }
 
 /* ---------- all features ---------- */
-let FX = { open: 0, all: false, qs: "", plan: 2 };
+let FX = { open: 0, all: false, qs: "", plan: 2, pin: null };
 try { FX.all = localStorage.getItem("tw-fx-all") === "1"; } catch (_) {}
 /* every group the chart holds: the feature groups, then the sources from coverage, each with its own columns */
 const FXG = C.features.groups.map(g => ({ name: g.name, cols: PLANS4, rows: g.rows }))
@@ -4284,7 +4300,8 @@ function fxSrc() {
   const grp = g && g.classList.contains("src") ? FXG.find(x => slug(x.name) === g.id) : null;
   const key = grp ? grp.name : "plans"; if (cols.dataset.k === key) return; cols.dataset.k = key;
   const names = grp ? grp.cols : PLANS4;
-  cols.innerHTML = `<span></span>${names.map(n => `<span>${E(n)}</span>`).join("")}<span></span>`;
+  if (grp) cols.setAttribute("aria-hidden", "true"); else { cols.removeAttribute("aria-hidden"); cols.setAttribute("role", "group"); cols.setAttribute("aria-label", "Highlight a plan"); }
+  cols.innerHTML = `<span></span>${names.map((n, i) => grp ? `<span>${E(n)}</span>` : `<span><button type="button" class="fxp" data-fxpin="${i}" aria-pressed="${FX.pin === i}">${E(n)}</button></span>`).join("")}<span></span>`;
   cols.style.gridTemplateColumns = grp ? `minmax(0,2.2fr) repeat(${names.length},minmax(0,1fr)) 28px` : "";
 }
 addEventListener("scroll", () => { if (!fxSrcRaf && document.querySelector(".fxs")) fxSrcRaf = requestAnimationFrame(fxSrc); }, { passive: true });
@@ -4730,9 +4747,11 @@ document.addEventListener("click", e => {
   const csv = t.closest("#fxcsv");
   if (csv) { csv.href = featuresCSV(); return; }
   const fg = t.closest("[data-fg]");
-  if (fg) { const i = +fg.dataset.fg; FX.open = (FX.open === i && !FX.all) ? null : i; if (FX.all) { FX.all = false; try { localStorage.setItem("tw-fx-all", "0"); } catch (_) {} } renderFx(); return; }
+  if (fg) { const i = +fg.dataset.fg; fxAnchor(fg, i, () => { FX.open = (FX.open === i && !FX.all) ? null : i; if (FX.all) { FX.all = false; try { localStorage.setItem("tw-fx-all", "0"); } catch (_) {} } renderFx(); }); return; }
+  const pin = t.closest("[data-fxpin]");
+  if (pin) { const i = +pin.dataset.fxpin; FX.pin = FX.pin === i ? null : i; fxSpot(); return; }
   const fa = t.closest("[data-fxall]");
-  if (fa) { FX.all = fa.dataset.fxall === "1"; try { localStorage.setItem("tw-fx-all", FX.all ? "1" : "0"); } catch (_) {} renderFx(true); return; }
+  if (fa) { const h = fxFirstHead(), i = h ? +h.dataset.fg : null; fxAnchor(h, i, () => { FX.all = fa.dataset.fxall === "1"; try { localStorage.setItem("tw-fx-all", FX.all ? "1" : "0"); } catch (_) {} renderFx(true); }); return; }
   const fp = t.closest("[data-fxplan]");
   if (fp) { FX.plan = +fp.dataset.fxplan; renderFx(true); return; }
   const goto = t.closest("[data-goto]");
@@ -4749,9 +4768,42 @@ function featuresCSV() {
   }));
   return "data:text/csv;charset=utf-8," + encodeURIComponent(rows.join("\n"));
 }
+/* Where a pinned group title sits: just under the tools bar */
+function fxPinTop() { const b = document.querySelector(".fxbar"); return b ? b.getBoundingClientRect().bottom : 0; }
+/* The first group title at or below the pinned line, the one the reader is looking at */
+function fxFirstHead() { const y = fxPinTop() - 2; return [...document.querySelectorAll(".gh")].find(h => h.getBoundingClientRect().bottom > y) || null; }
+/* Run a change that re-renders the groups, then scroll so the group the reader acted on stays where it was:
+   pinned under the bar if it was pinned, otherwise at the same place on screen */
+function fxAnchor(el, i, change) {
+  const top = el ? el.getBoundingClientRect().top : null, pinY = fxPinTop(), pinned = top != null && top <= pinY + 1;
+  change();
+  if (top == null || i == null) return;
+  // Sections that lay out lazily (content-visibility) only take their real height once on screen,
+  // so one scroll can land short: measure and correct until the title is where it belongs.
+  for (let n = 0; n < 4; n++) {
+    const h = document.querySelector(`.gh[data-fg="${i}"]`); if (!h) return;
+    const want = pinned ? fxPinTop() : top, d = h.getBoundingClientRect().top - want;
+    if (Math.abs(d) <= 1) return;
+    window.scrollBy({ top: d, behavior: "instant" });
+  }
+}
+/* Spotlight a plan's column: the hovered plan, else the kept one */
+function fxSpot(hover) {
+  const w = document.querySelector(".fxs"); if (!w) return;
+  const v = hover != null ? hover : FX.pin;
+  if (v == null) delete w.dataset.spot; else w.dataset.spot = String(v);
+  w.querySelectorAll("[data-fxpin]").forEach(b => b.setAttribute("aria-pressed", String(+b.dataset.fxpin === FX.pin)));
+}
+document.addEventListener("pointerover", e => { const b = e.target.closest && e.target.closest("[data-fxpin]"); if (b) fxSpot(+b.dataset.fxpin); });
+document.addEventListener("pointerout", e => { const b = e.target.closest && e.target.closest("[data-fxpin]"); if (b && !(e.relatedTarget && b.contains(e.relatedTarget))) fxSpot(); });
+document.addEventListener("focusin", e => { const b = e.target.closest && e.target.closest("[data-fxpin]"); if (b) fxSpot(+b.dataset.fxpin); });
+document.addEventListener("focusout", e => { if (e.target.closest && e.target.closest("[data-fxpin]")) fxSpot(); });
+/* Rows don't take hover while the page scrolls, so they don't flicker as they slide under the cursor */
+let fxScrollT = 0;
+addEventListener("scroll", () => { const w = document.querySelector(".fxs"); if (!w) return; w.classList.add("scrolling"); clearTimeout(fxScrollT); fxScrollT = setTimeout(() => w.classList.remove("scrolling"), 140); }, { passive: true });
 function renderFx(full) {
   const host = document.getElementById("fgs"); if (!host) return;
-  host.innerHTML = fxGroups(); ties(host); fxMeasure();
+  host.innerHTML = fxGroups(); ties(host); fxMeasure(); fxSpot();
   if (full) {
     document.querySelectorAll("[data-fxall]").forEach(b => b.setAttribute("aria-pressed", String((b.dataset.fxall === "1") === FX.all)));
     document.querySelectorAll("[data-fxplan]").forEach(b => b.setAttribute("aria-pressed", String(+b.dataset.fxplan === FX.plan)));
